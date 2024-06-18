@@ -7,6 +7,16 @@ def get_inventory(sheet_name, category=None):
 
     if category:
         data = [item for item in data if item['Category'] == category]
-
-    return data
+    
+    filtered_data = [
+        {
+            "Product Name": item.get("Product Name"),
+            "Description": item.get("Description"),
+            "Size": item.get("Size"),
+            "Color": item.get("Color")
+        }
+        for item in data
+    ]
+    
+    return filtered_data
 
