@@ -1,4 +1,5 @@
 from fightstore.sheets import get_sheet
+from pprint import pprint
 
 def get_inventory(sheet_name, category=None):
     sheet = get_sheet(sheet_name)
