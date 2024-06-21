@@ -1,6 +1,9 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from pprint import pprint
+from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+
 
 def get_sheet(sheet_name):
     SCOPE = [

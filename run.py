@@ -1,9 +1,17 @@
 from fightstore.inventory import get_inventory
 import pandas as pd
 from pprint import pprint
+import os
+from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+import gspread
+from fightstore.sheets import get_sheet
 
 SHEET_NAME = "Simulation_Fight_Store"
-prod_sheet = gc.open_by_key("Simulation_Fight_Store").worksheet("products")
+sheet = get_sheet(SHEET_NAME)
+prod_sheet = sheet.worksheet("products")
+pricing_sheet = sheet.worksheet("pricing")
+
 def display_welcome_message():
     print("Welcome to Simulation Fightware!")
     print("Which products are you interested in?")
@@ -58,20 +66,33 @@ def process_selection(product, quantity):
     chosen_product = product['ProductID']
     print(chosen_product)
     
-    get_row_by_product_id(chosen_product)
+    row_values = get_row_by_product_id(chosen_product)
+    if row_values:
+        product_name, category, description, size, color = row_values[:5]  # Adjust according to the structure of your rows
+        print(f"Product Name: {product_name}")
+        print(f"Category: {category}")
+        print(f"Description: {description}")
+        print(f"Size: {size}")
+        print(f"Color: {color}")
 
+
+    
 def get_row_by_product_id(product_id):
-
-    column_values = prod_sheet.col_values(1)
     try:
-        row_index = column_values.index(product_id) + 1  
+        column_values = prod_sheet.col_values(1)
+        row_index = column_values.index(product_id) + 1
+        
     except ValueError:
         print(f"Product ID '{product_id}' not found in the spreadsheet.")
         return None
 
-    row_values = sheet.row_values(row_index)
+    row_values = prod_sheet.row_values(row_index)
 
     return row_values
+    print(product_name, category, description)
+    
+
+
 
 if __name__ == "__main__":
     main_menu()
