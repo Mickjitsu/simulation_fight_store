@@ -3,7 +3,7 @@ import pandas as pd
 from pprint import pprint
 
 SHEET_NAME = "Simulation_Fight_Store"
-
+prod_sheet = gc.open_by_key("Simulation_Fight_Store").worksheet("products")
 def display_welcome_message():
     print("Welcome to Simulation Fightware!")
     print("Which products are you interested in?")
@@ -51,8 +51,27 @@ def select_product(df_inventory):
         print(f"Error: {e}. Please try again.")
         select_product(df_inventory)
 
+        print(product_index)
+
 def process_selection(product, quantity):
-    print(f"\nYou have selected:\nProduct Name: {product['Product Name']}\nDescription: {product['Description']}\nQuantity: {quantity}")
+    print(f"\nYou have selected:\nProduct Name: {product['Product Name']}\nDescription: {product['Description']}\nQuantity: {quantity}\n ProductID: {product['ProductID']}\n Size:{product['Size']}")
+    chosen_product = product['ProductID']
+    print(chosen_product)
+    
+    get_row_by_product_id(chosen_product)
+
+def get_row_by_product_id(product_id):
+
+    column_values = prod_sheet.col_values(1)
+    try:
+        row_index = column_values.index(product_id) + 1  
+    except ValueError:
+        print(f"Product ID '{product_id}' not found in the spreadsheet.")
+        return None
+
+    row_values = sheet.row_values(row_index)
+
+    return row_values
 
 if __name__ == "__main__":
     main_menu()

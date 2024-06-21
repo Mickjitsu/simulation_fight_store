@@ -11,13 +11,13 @@ def get_inventory(sheet_name, category=None):
     
     filtered_data = [
         {
-            "Product Name": item.get("Product Name"),
+            "Product Name": item.get("ProductName"),
             "Description": item.get("Description"),
             "Size": item.get("Size"),
-            "Color": item.get("Color")
+            "Color": item.get("Color"),
+            "ProductID": item.get("ProductID")
         }
         for item in data
     ]
-    
     return filtered_data
 
