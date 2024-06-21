@@ -6,11 +6,14 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 import gspread
 from fightstore.sheets import get_sheet
+from datetime import datetime
 
 SHEET_NAME = "Simulation_Fight_Store"
 sheet = get_sheet(SHEET_NAME)
 prod_sheet = sheet.worksheet("products")
 pricing_sheet = sheet.worksheet("pricing")
+sales_sheet = sheet.worksheet("sales")
+stock_sheet = sheet.worksheet("stock")
 
 def display_welcome_message():
     print("Welcome to Simulation Fightware!")
@@ -77,7 +80,19 @@ def process_selection(product, quantity):
         
         price = get_price_by_product_id(chosen_product)
         if price is not None:
-            print(f"Price: {price}")
+            total_price = float(price) * quantity
+            print(f"Price per unit: {price}")
+            print(f"Total price: {total_price}")
+            
+            purchase_choice = input("Would you like to purchase this product? (yes/no): ").strip().lower()
+            
+            if purchase_choice == 'yes':
+                sale_id = generate_sale_id()
+                date_of_purchase = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                record_sale(sale_id, date_of_purchase, chosen_product, size, color, quantity, price, total_price)
+                print("Purchase successful!")
+            else:
+                print("Purchase cancelled.")
         else:
             print("Price not found.")
 
@@ -86,16 +101,17 @@ def process_selection(product, quantity):
 def get_row_by_product_id(product_id):
     try:
         column_values = prod_sheet.col_values(1)
-        row_index = column_values.index(product_id) + 1
-        
+        print(f"Column values for Product IDs: {column_values}")  
+        row_index = column_values.index(product_id) + 1  
+        print(f"Row index for Product ID '{product_id}': {row_index}")  
     except ValueError:
         print(f"Product ID '{product_id}' not found in the spreadsheet.")
         return None
 
     row_values = prod_sheet.row_values(row_index)
+    print(f"Row values for Product ID '{product_id}': {row_values}")  
 
     return row_values
-    print(product_name, category, description)
   
     
 
@@ -111,6 +127,23 @@ def get_price_by_product_id(product_id):
     
     price = row_values[3] if len(row_values) > 3 else None
     return price
+
+def generate_sale_id():
+    sales_records = sales_sheet.get_all_records()
+    print(f"Sales records: {sales_records}")  
+    if sales_records:
+        try:
+            
+            last_sale_id = int(sales_records[-1]['Sale ID'])
+            return last_sale_id + 1
+        except (ValueError, KeyError) as e:
+            print(f"Error extracting last sale ID: {e}")
+            return 1101
+    else:
+        return 1101
+
+def record_sale(sale_id, date_of_purchase, product_id, size, color, quantity, price, total_price):
+    sales_sheet.append_row([sale_id, date_of_purchase, product_id, size, color, quantity, price, total_price])
 
 if __name__ == "__main__":
     main_menu()
