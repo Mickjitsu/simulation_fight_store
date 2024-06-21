@@ -68,12 +68,18 @@ def process_selection(product, quantity):
     
     row_values = get_row_by_product_id(chosen_product)
     if row_values:
-        product_name, category, description, size, color = row_values[:5]  # Adjust according to the structure of your rows
+        product_name, category, description, size, color = row_values[:5]  
         print(f"Product Name: {product_name}")
         print(f"Category: {category}")
         print(f"Description: {description}")
         print(f"Size: {size}")
         print(f"Color: {color}")
+        
+        price = get_price_by_product_id(chosen_product)
+        if price is not None:
+            print(f"Price: {price}")
+        else:
+            print("Price not found.")
 
 
     
@@ -90,9 +96,21 @@ def get_row_by_product_id(product_id):
 
     return row_values
     print(product_name, category, description)
+  
     
 
+def get_price_by_product_id(product_id):
+    try:
+        column_values = pricing_sheet.col_values(1)
+        row_index = column_values.index(product_id) + 1  
+    except ValueError:
+        print(f"Product ID '{product_id}' not found in the pricing sheet.")
+        return None
 
+    row_values = pricing_sheet.row_values(row_index)
+    
+    price = row_values[3] if len(row_values) > 3 else None
+    return price
 
 if __name__ == "__main__":
     main_menu()
