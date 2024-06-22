@@ -16,7 +16,7 @@ sales_sheet = sheet.worksheet("sales")
 stock_sheet = sheet.worksheet("stock")
 
 def display_welcome_message():
-    print("Welcome to Simulation Fightware!")
+    print("Welcome to Simulation Fightwear!")
     print("Which products are you interested in?")
     print("1. GI")
     print("2. No-Gi")
@@ -72,30 +72,46 @@ def process_selection(product, quantity):
     row_values = get_row_by_product_id(chosen_product)
     if row_values:
         product_name, category, description, size, color = row_values[:5]  
-        print(f"Product Name: {product_name}")
-        print(f"Category: {category}")
-        print(f"Description: {description}")
-        print(f"Size: {size}")
-        print(f"Color: {color}")
-        
         price = get_price_by_product_id(chosen_product)
         if price is not None:
             total_price = float(price) * quantity
             print(f"Price per unit: {price}")
             print(f"Total price: {total_price}")
             
-            purchase_choice = input("Would you like to purchase this product? (yes/no): ").strip().lower()
-            
-            if purchase_choice == 'yes':
-                sale_id = generate_sale_id()
-                date_of_purchase = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                record_sale(sale_id, date_of_purchase, chosen_product, size, color, quantity, price, total_price)
-                print("Purchase successful!")
-            else:
+            #calls stuck sufficient function to ensure we have the correct stock before processing
+            is_stock_sufficient, current_stock = check_stock(chosen_product, quantity)
+            if is_stock_sufficient:
+               purchase_choice = input("Would you like to purchase this product? (yes/no): ").strip().lower()
+               if purchase_choice == 'yes':
+                 sale_id = generate_sale_id()
+                 date_of_purchase = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                 record_sale(sale_id, date_of_purchase, chosen_product, size, color, quantity, price, total_price)
+                 print("Purchase successful!")
+               else: 
                 print("Purchase cancelled.")
+            else:
+                print(f"Insufficient stock. Only {current_stock} units available.")
         else:
             print("Price not found.")
 
+def check_stock(product_id, quantity):
+    try:
+        column_values = stock_sheet.col_values(1)
+        row_index = column_values.index(product_id) + 1
+
+        # Retrieves current stock count
+        current_stock = int(stock_sheet.cell(row_index, 4).value)
+        
+        if current_stock >= quantity:
+            return True, current_stock
+        else:
+            return False, current_stock
+    except ValueError:
+        print(f"Product ID '{product_id}' not found in the stock worksheet.")
+        return False, 0
+    except Exception as e:
+        print(f"Error checking stock for Product ID '{product_id}': {e}")
+        return False, 0
 
     
 def get_row_by_product_id(product_id):
@@ -144,6 +160,27 @@ def generate_sale_id():
 
 def record_sale(sale_id, date_of_purchase, product_id, size, color, quantity, price, total_price):
     sales_sheet.append_row([sale_id, date_of_purchase, product_id, size, color, quantity, price, total_price])
+
+    try:
+        # Finds the product via Index of productID in stock sheet
+        column_values = stock_sheet.col_values(1) 
+        row_index = column_values.index(product_id) + 1
+        
+        # Updating stock count (4th column on sheet)
+        current_stock = int(stock_sheet.cell(row_index, 4).value)
+        updated_stock = current_stock - quantity
+        
+        # Ensuring stock doesn't go negative
+        if updated_stock < 0:
+            updated_stock = 0
+        
+        # Update the stock count in the worksheet
+        stock_sheet.update_cell(row_index, 4, updated_stock)
+        print(f"Stock updated successfully. New stock count for Product ID '{product_id}': {updated_stock}")
+    except ValueError:
+        print(f"Product ID '{product_id}' not found in the stock worksheet.")
+    except Exception as e:
+        print(f"Error updating stock for Product ID '{product_id}': {e}")
 
 if __name__ == "__main__":
     main_menu()
