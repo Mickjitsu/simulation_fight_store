@@ -101,25 +101,36 @@ def process_selection(product, quantity):
             print(f"Price per unit: {price}")
             print(f"Total price: {total_price}")
             
-            #calls stuck sufficient function to ensure we have the correct stock before processing
+            # Calls stock sufficient function to ensure we have the correct stock before processing
             is_stock_sufficient, current_stock = check_stock(chosen_product, quantity)
             if is_stock_sufficient:
-               purchase_choice = input("Would you like to purchase this product? (yes/no): ").strip().lower()
-               if purchase_choice == 'yes':
-                 sale_id = generate_sale_id()
-                 date_of_purchase = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                 record_sale(sale_id, date_of_purchase, chosen_product, size, color, quantity, price, total_price)
-                 print("Purchase successful!")
+                while True:
+                    purchase_choice = input("Would you like to purchase this product? (yes/no): ").strip().lower()
+                    if purchase_choice == 'yes':
+                        sale_id = generate_sale_id()
+                        date_of_purchase = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        record_sale(sale_id, date_of_purchase, chosen_product, size, color, quantity, price, total_price)
+                        print("Purchase successful!")
 
-                 phone_number = get_phone_number()
-                 send_message(phone_number, sale_id)
-
-               else: 
-                print("Purchase cancelled.")
+                        phone_number = get_phone_number()
+                        send_message(phone_number, sale_id)
+                        break
+                    elif purchase_choice == 'no':
+                        print("Sure thing, purchase cancelled.")
+                        main_menu()
+                        break
+                    else:
+                        print("Invalid input, please try again.")
+                        retry_choice = input("Would you like to try again? (yes/no): ").strip().lower()
+                        if retry_choice == 'no':
+                            main_menu()
+                            break
             else:
                 print(f"Insufficient stock. Only {current_stock} units available.")
         else:
             print("Price not found.")
+    else:
+        print(f"Product ID '{chosen_product}' not found.")
 
 if __name__ == "__main__":
     main_menu()
