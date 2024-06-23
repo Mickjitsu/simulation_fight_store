@@ -51,7 +51,7 @@ def display_category(category):
 #this function shows the user their collection of products in a category and asks them to select a product by its index number
 def select_product(df_inventory):
     print("\nSelect a product by its index number:")
-    print(df_inventory[['Product Name', 'Description', 'Size', 'Color']].reset_index())
+    print(df_inventory[['Product Name', 'Description', 'Size', 'Color']].reset_index(drop=True))
 
     try:
         product_index = int(input("Enter the product index: "))
