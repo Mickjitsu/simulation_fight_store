@@ -55,22 +55,31 @@ def display_category(category):
 
 #this function shows the user their collection of products in a category and asks them to select a product by its index number
 def select_product(df_inventory):
-    print("\nSelect a product by its index number:")
-    print(df_inventory[['Product Name', 'Description', 'Size', 'Color']].reset_index(drop=True))
+    print("\nSelect a product by its index number or enter 'back' to return to the main menu:")
+    for index, row in df_inventory.iterrows():
+        print(f"{index}: {row['Product Name']} - {row['Description']} - {row['Size']} - {row['Color']}")
 
-    try:
-        product_index = int(input("Enter the product index: "))
-        if product_index < 0 or product_index >= len(df_inventory):
-            raise ValueError("Invalid index")
+    while True:
+        user_input = input("Enter the product index or 'back': ").strip().lower()
         
-        product = df_inventory.iloc[product_index]
+        if user_input == 'back':
+            main_menu()
+            return
         
-        quantity = int(input("Enter the quantity: "))
-        
-        process_selection(product, quantity)
-    except ValueError as e:
-        print(f"Error: {e}. Please try again.")
-        select_product(df_inventory)
+        try:
+            product_index = int(user_input)
+            if product_index < 0 or product_index >= len(df_inventory):
+                raise ValueError("Invalid index")
+            
+            product = df_inventory.iloc[product_index]
+            
+            quantity = int(input("Enter the quantity: "))
+            
+            process_selection(product, quantity)
+            break  # Exit the loop after processing the selection
+        except ValueError as e:
+            print(f"Error: {e}. Please try again.")
+
 
 
 def validate_phone_number(phone_number):
@@ -81,7 +90,7 @@ def validate_phone_number(phone_number):
 
 #this function asks the customer to input their phone number in order to receive an order confirmation message   
 def get_phone_number():
-    phone_number = input("Please enter your phone number so that we can send your order confirmation via WhatsApp(10 digits-12 digits including country code and no '+'): ").strip()
+    phone_number = input("Please enter your phone number so that we can send your order confirmation via WhatsApp(9-13 digits including country code and no '+'): ").strip()
     while not validate_phone_number(phone_number):
         print("Invalid phone number. Please enter a valid 10-12 digit phone number.")
         phone_number = input("Please enter your phone number (10-12 digits): ").strip()
