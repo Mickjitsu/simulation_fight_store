@@ -182,7 +182,6 @@ https://python.plainenglish.io/master-google-sheets-api-in-python-cheat-sheet-35
 The knowledge of Bird API comes from my line of work and knowledge built up supporting users using the API, along with their developer documentation below.
 
 https://docs.bird.com/api?_gl=1*2nbcnw*_up*MQ..*_ga*MTg5OTU2MzgxMy4xNzE5MjY1MjA4*_ga_2MDYK6FXKB*MTcxOTI2NTIwOC4xLjAuMTcxOTI2NTIwOC4wLjAuMA..
-The guidance I had on this was from the current course I am doing on code institute, along with memory of previous courses I have completed on Udemy which helped with the liges of modals.
 
 ## Acknowledgements
 I would like to thank my partner for encouraging me to continue on when I was struggling at the start of the course, my family for encouraging me to keep studying despite going through a bereavement, and my mentor Matt for helping me along the way with pre, mid point and final calls! This year has been incredibly hard and only seems to be getting harder, however making the time to get this done no matter the issues that I face around me make it all worth while.
