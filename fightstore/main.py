@@ -72,11 +72,16 @@ def select_product(df_inventory):
             if product_index < 0 or product_index >= len(df_inventory):
                 raise ValueError("Invalid index")
             product = df_inventory.iloc[product_index]
-            quantity = int(input("Enter the quantity: "))
-            process_selection(product, quantity)
-            break
+            while True:  
+                quantity = int(input("Enter the quantity: "))
+                if quantity <= 0:
+                    print("Quantity must be greater than 0. Please try again.")
+                else:
+                    process_selection(product, quantity)
+                    return  
         except ValueError as e:
             print(f"Error: {e}. Please try again.")
+
 
 
 def validate_phone_number(phone_number):

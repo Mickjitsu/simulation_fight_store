@@ -59,3 +59,4 @@ def get_price_by_product_id(product_id):
     row_values = pricing_sheet.row_values(row_index)
     price = row_values[3] if len(row_values) > 3 else None
     return price
+    

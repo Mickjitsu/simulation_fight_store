@@ -11,11 +11,6 @@ This is a project I have been working on as part of my PP3 Assignment for Code I
 - [Introduction](#introduction)
 - [User Experience](#user-experience)
   - [User Stories](#user-stories)
-- [Design](#design)
-  - [Colour Scheme](#colour-scheme)
-  - [Typography](#typography)
-  - [Imagery](#imagery)
-  - [Wireframes](#wireframes)
 - [Features](#features)
   - [Existing Features](#existing-features)
   - [Features to be Added](#features-to-be-added)
@@ -86,7 +81,17 @@ A payment feature would be added to allow the user to be transferred to a paymen
 ## Testing
 
 ### Validation of Code
+-- Sheets.py Validation
+![Validation of Sheets.py file](documentation/sheetsvalidation.jpg)
 
+-- Sales.py validation
+![Validation of sales.py File](documentation/salesvalidation.jpg)
+
+-- Inventory.py validation
+![Validation of inventory.py file](documentation/invvalidation.jpg)
+
+-- Main.py Validation
+![Validation of main.py , one line was too long as it wasn't able to be adjusted without ruining functionality](documentation/mainvalidation.jpg)
 
 ### Manual Testing
 
@@ -115,6 +120,8 @@ When writing the code for this project I had to over come some bugs that appeare
 
 Google sheets also presented some bugs as I was getting used to how this is used. One issue returned was that the index number was shown twice each time a category was selected. To overcome this, after much investigating online, the following addition was added to the print statement that printed the category products '.reset_index(drop=True)' so the full print statement was now print(df_inventory[['Product Name', 'Description', 'Size', 'Color']].reset_index(drop=True)). After this, only one index code per item was shown.
 
+Upon deployment, it appears that the program itself is not working as expected when using the code institute CLI template. I have included a loom recording below showing that the program does work as expected when ran directly in the terminal.
+
 
 ## Technologies Used
 
@@ -133,26 +140,27 @@ Run the clone command:
 
 To Fork this repository and have a version of this on your personal account to make changes, customisation and amendments, please do the following.
 
-Go to the GitHub page of the repository : https://github.com/Mickjitsu/football_quiz/tree/main
+Go to the GitHub page of the repository : https://github.com/Mickjitsu/simulation_fight_store
 Click on the "Fork" button, usually found at the top-right corner of the page.
 
 After forking, you will have a copy of the repository in your GitHub account. You can then clone your forked version to your local machine by following the "Cloning the Repository" steps, using the URL of your fork.
 
 To view the repository on the local machine:
 
-1. Navigate to the Project Directory: : cd //football_quiz
+1. Navigate to the Project Directory: : cd //simulation_fight_store
 
-2. Open the Website: Open the main index.html page in a browser or the folder in a code editory
+2. Open the project in a code editor like VS code, or via the terminal to interact.
 
 
 ## Deployment
 
 **Deploying on Github Pages**
-Firstly clone or fork the repository following the steps above. Once that is done, you will need to set up GitHub Pages. To do this:
- In your repository, navigate to the "Settings" tab.
-   - Click on the "Pages" section on the left sidebar.
-   - Under the "Source" section, select the branch you want to deploy from (usually `main` or `master`) and click "Save".
-   - GitHub will provide you with a link to your live site.
+Firstly clone or fork the repository following the steps above. Once that is done, you will need to set up Heroku:
+ Log onto Heroku
+   - Connect with your repository
+   - Ensure sheets API credentials have been created, then add them to the var files in the settings.
+   - Add python and node.js buildpacks.
+   - Deploy via the manual deploy button on heroku.
 
 
 ## Credits
