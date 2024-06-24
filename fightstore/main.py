@@ -37,12 +37,12 @@ def display_welcome_message():
 
 def main_menu():
     display_welcome_message()
-    choice = input("Enter your choice (1-3): ")
-    if choice in ['1', 'GI', 'Gi', 'gi']:
+    choice = input("Enter your choice (1-3): ").lower()
+    if choice in ['1', 'gi']:
         display_category("GI")
-    elif choice in ['2', 'No-Gi', 'NO-GI', 'no-gi']:
+    elif choice in ['2', 'no-gi']:
         display_category("NO-GI")
-    elif choice in ['3', 'misc', 'Misc', 'MISC']:
+    elif choice in ['3', 'misc']:
         display_category("Misc")
     else:
         print("Invalid choice. Please try again.")
@@ -56,19 +56,14 @@ def display_category(category):
 
 
 def select_product(df_inventory):
-    print(
-        "\nSelect a product by its index number or enter 'back' to return to the "
-        "main menu:"
-    )
+    print("\nSelect a product by its index number or enter 'back'"
+          "to return to the main menu:")
     for index, row in df_inventory.iterrows():
-        print(
-            f"{index}: {row['Product Name']} - {row['Description']} - "
-            f"{row['Size']} - {row['Color']}"
-        )
+        print(f"{index}: {row['Product Name']} - {row['Description']} "
+              "- {row['Size']} - {row['Color']}")
     while True:
-        user_input = input(
-            "Enter the product index or 'back': "
-        ).strip().lower()
+        user_input = input("Enter the product index "
+                           "or 'back': ").strip().lower()
         if user_input == 'back':
             main_menu()
             return
@@ -85,36 +80,28 @@ def select_product(df_inventory):
 
 
 def validate_phone_number(phone_number):
-    if re.fullmatch(r'\d{9,13}', phone_number):
-        return True
-    return False
+    return bool(re.fullmatch(r'\d{9,13}', phone_number))
 
 
 def get_phone_number():
-    phone_number = input(
-        "Please enter your phone number so that we can send your order "
-        "confirmation via WhatsApp (9-13 digits including country code and "
-        "without the '+' symbol): "
-    ).strip()
+    phone_number = input("Please enter your phone number "
+                         "(9-13 digits): ").strip()
     while not validate_phone_number(phone_number):
-        print(
-            "Invalid phone number. Please enter a valid 9-13 digit phone number."
-        )
-        phone_number = input(
-            "Please enter your phone number (9-13 digits): "
-        ).strip()
+        print("Invalid phone number. Please enter"
+              "a valid 9-13 digit phone number.")
+        phone_number = input("Please enter your phone "
+                             "number (9-13 digits): ").strip()
     return phone_number
 
 
 def process_selection(product, quantity):
-    print(
-        f"\nYou have selected:\n"
-        f"Product Name: {product['Product Name']}\n"
-        f"Description: {product['Description']}\n"
-        f"Quantity: {quantity}\n"
-        f"ProductID: {product['ProductID']}\n"
-        f"Size: {product['Size']}"
-    )
+    print(f"\nYou have selected:\n"
+          f"Product Name: {product['Product Name']}\n"
+          f"Description: {product['Description']}\n"
+          f"Quantity: {quantity}\n"
+          f"ProductID: {product['ProductID']}\n"
+          f"Size: {product['Size']}")
+
     chosen_product = product['ProductID']
     row_values = get_row_by_product_id(chosen_product)
     if row_values:
@@ -124,53 +111,39 @@ def process_selection(product, quantity):
             total_price = float(price) * quantity
             print(f"Price per unit: {price}")
             print(f"Total price: {total_price}")
-            is_stock_sufficient, current_stock = check_stock(
-                chosen_product, quantity
-            )
+            is_stock_sufficient, current_stock = (
+                check_stock(chosen_product, quantity)
+                )
             if is_stock_sufficient:
                 while True:
-                    purchase_choice = input(
-                        "Would you like to purchase this product? (yes/no): "
-                    ).strip().lower()
+                    purchase_choice = input("Would you like to purchase "
+                                            "this product? (yes/no): ").strip().lower()
                     if purchase_choice == 'yes':
                         sale_id = generate_sale_id()
-                        date_of_purchase = datetime.now().strftime(
-                            "%Y-%m-%d %H:%M:%S"
-                        )
-                        record_sale(
-                            sale_id, date_of_purchase, chosen_product, size,
-                            color, quantity, price, total_price
-                        )
+                        date_of_purchase = (
+                            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            )
+                        record_sale(sale_id, date_of_purchase, chosen_product,
+                                    size, color, quantity, price, total_price)
                         print("Purchase successful!")
                         phone_number = get_phone_number()
-                        send_message(
-                            phone_number, sale_id
-                        )
+                        send_message(phone_number, sale_id)
                         break
                     elif purchase_choice == 'no':
-                        print(
-                            "Sure thing, purchase cancelled. Returning to the "
-                            "main menu!"
-                        )
+                        print("Sure thing, purchase cancelled. "
+                              "Returning to the main menu!")
                         main_menu()
                         break
                     else:
                         print("Invalid input, please try again.")
-                        retry_choice = input(
-                            "Would you like to try again? (yes/no): "
-                        ).strip().lower()
-                        if retry_choice == 'no':
-                            main_menu()
-                            break
             else:
-                print(
-                    f"Insufficient stock. Only {current_stock} units available. "
-                    "Returning to the main menu."
-                )
+                print(f"Insufficient stock. Only {current_stock} units "
+                      "available.Returning to the main menu.")
                 main_menu()
         else:
             print("Price not found, returning to main menu.")
             main_menu()
     else:
-        print(f"Product ID '{chosen_product}' not found, returning to main menu")
+        print(f"Product ID '{chosen_product}' not found"
+              ", returning to main menu.")
         main_menu()
