@@ -37,6 +37,9 @@ def display_welcome_message():
 
 def main_menu():
     display_welcome_message()
+
+    time.sleep(2)
+    
     choice = input("Enter your choice (1-3): ").lower()
     if choice in ['1', 'gi']:
         display_category("GI")
