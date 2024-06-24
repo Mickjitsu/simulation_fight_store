@@ -5,6 +5,12 @@
 ## Introduction
 This is a project I have been working on as part of my PP3 Assignment for Code Institute. This project simulates a command line based clothing store that sells Brazilian JiuJitsu products directly via the command line. Users will have the choice to choose between GI, NO-GI and Misc categories, and have their listed products shown based on the current stock that is updated directly via the program via the Google Sheets API.
 
+Please Read : When using the program via the CLI template on Heroku, there seems to be an issue where input prompts aren't printed to the screen, resulting in the program being buggy. Please review the video below to see that it runs perfectly on a terminal, however the input statements aren't shown on the Command Line template.
+
+https://www.loom.com/share/2a6478c06563492bb908439cf5f9d4a1
+
+
+![Am I responsive](documentation/amiresp.jpg)
 
 
 ## Table of Contents
@@ -123,9 +129,9 @@ When writing the code for this project I had to over come some bugs that appeare
 
 Google sheets also presented some bugs as I was getting used to how this is used. One issue returned was that the index number was shown twice each time a category was selected. To overcome this, after much investigating online, the following addition was added to the print statement that printed the category products '.reset_index(drop=True)' so the full print statement was now print(df_inventory[['Product Name', 'Description', 'Size', 'Color']].reset_index(drop=True)). After this, only one index code per item was shown.
 
-Upon deployment, it appears that the program itself is not working as expected when using the code institute CLI template. I have included a loom recording below showing that the program does work as expected when ran directly in the terminal.
+Upon deployment, it appears that the program itself is not working as expected when using the code institute CLI template. I have included a loom recording below showing that the program does work as expected when ran directly in the terminal. Upon further digging, the CLI on heroku appears to not print input statements, while this works perfectly on the gitpod terminal.
 
-https://www.loom.com/share/55178826bbfb4b59b3403ddc29691595
+https://www.loom.com/share/2a6478c06563492bb908439cf5f9d4a1
 
 
 ## Technologies Used
