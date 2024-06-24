@@ -16,6 +16,7 @@ from fightstore.send_message import send_message
 from datetime import datetime
 import re
 import requests
+import time
 
 SHEET_NAME = "Simulation_Fighit_Store"
 sheet = get_sheet(SHEET_NAME)
@@ -39,7 +40,7 @@ def main_menu():
     display_welcome_message()
 
     time.sleep(2)
-    
+
     choice = input("Enter your choice (1-3): ").lower()
     if choice in ['1', 'gi']:
         display_category("GI")
