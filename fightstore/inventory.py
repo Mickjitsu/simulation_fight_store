@@ -2,7 +2,7 @@ from fightstore.sheets import get_sheet
 from pprint import pprint
 import pandas as pd
 from pprint import pprint
-from .sheets import get_sheet
+from fightstore.sheets import get_sheet
 
 SHEET_NAME = "Simulation_Fight_Store"
 sheet = get_sheet(SHEET_NAME)
@@ -28,11 +28,11 @@ def get_inventory(sheet_name, category=None):
     return filtered_data
 
 
- #This function returns the row data from our products page for a product to return its information   
+# This function returns the row data from our products page for a product
 def get_row_by_product_id(product_id):
     try:
         column_values = prod_sheet.col_values(1)
-        row_index = column_values.index(product_id) + 1  
+        row_index = column_values.index(product_id) + 1
     except ValueError:
         print(f"Product ID '{product_id}' not found in the spreadsheet.")
         return None
@@ -41,7 +41,7 @@ def get_row_by_product_id(product_id):
 
     return row_values
   
-  #this function checks current stock for a specific product before continuing with the order
+# this function checks current stock for a specific product before processing
 def check_stock(product_id, quantity):
     try:
         column_values = stock_sheet.col_values(1)
