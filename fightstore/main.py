@@ -90,7 +90,7 @@ def validate_phone_number(phone_number):
 
 #this function asks the customer to input their phone number in order to receive an order confirmation message   
 def get_phone_number():
-    phone_number = input("Please enter your phone number so that we can send your order confirmation via WhatsApp(9-13 digits including country code and no '+'): ").strip()
+    phone_number = input("Please enter your phone number so that we can send your order confirmation via WhatsApp(9-13 digits including country code and without the '+' symbol): ").strip()
     while not validate_phone_number(phone_number):
         print("Invalid phone number. Please enter a valid 10-12 digit phone number.")
         phone_number = input("Please enter your phone number (10-12 digits): ").strip()
@@ -125,7 +125,7 @@ def process_selection(product, quantity):
                         send_message(phone_number, sale_id)
                         break
                     elif purchase_choice == 'no':
-                        print("Sure thing, purchase cancelled.")
+                        print("Sure thing, purchase cancelled. Returning to the main menu!")
                         main_menu()
                         break
                     else:
@@ -135,8 +135,12 @@ def process_selection(product, quantity):
                             main_menu()
                             break
             else:
-                print(f"Insufficient stock. Only {current_stock} units available.")
+                print(f"Insufficient stock. Only {current_stock} units available. Returning to the main menu.")
+                main_menu()
+                
         else:
-            print("Price not found.")
+            print("Price not found, returning to main menu.")
+            main_menu()
     else:
-        print(f"Product ID '{chosen_product}' not found.")
+        print(f"Product ID '{chosen_product}' not found, returning to main menu")
+        main_menu()
