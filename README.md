@@ -74,6 +74,9 @@ Error handling is present throughout the program to ensure that the information 
 
 When ordering an item, the stock levels are checked before hand to ensure that there is sufficient stock to fulfill the order and if not, a message is displayed explaining there is not enough stock left.
 
+![Stock sheet on google sheets after each successful run](documentation/stock_sheet.jpg)
+![Sales sheet on google sheets after every successful sale](documentation/sales_sheet.jpg)
+
 ## Features to be Added
 A payment feature would be added to allow the user to be transferred to a payment URL, or via an API like stripe, to allow for the payments to be received from the user before processing.
 
@@ -122,6 +125,8 @@ Google sheets also presented some bugs as I was getting used to how this is used
 
 Upon deployment, it appears that the program itself is not working as expected when using the code institute CLI template. I have included a loom recording below showing that the program does work as expected when ran directly in the terminal.
 
+https://www.loom.com/share/55178826bbfb4b59b3403ddc29691595
+
 
 ## Technologies Used
 
@@ -165,11 +170,15 @@ Firstly clone or fork the repository following the steps above. Once that is don
 
 ## Credits
 
-The images of this site came from wikipedia.com
+The knowledge for google sheets came from the walkthrough project along with the google sheets cheat sheet hosted online below.
+https://python.plainenglish.io/master-google-sheets-api-in-python-cheat-sheet-3535e86fbe17
 
+The knowledge of Bird API comes from my line of work and knowledge built up supporting users using the API, along with their developer documentation below.
+
+https://docs.bird.com/api?_gl=1*2nbcnw*_up*MQ..*_ga*MTg5OTU2MzgxMy4xNzE5MjY1MjA4*_ga_2MDYK6FXKB*MTcxOTI2NTIwOC4xLjAuMTcxOTI2NTIwOC4wLjAuMA..
 The guidance I had on this was from the current course I am doing on code institute, along with memory of previous courses I have completed on Udemy which helped with the liges of modals.
 
 ## Acknowledgements
-I would like to thank my partner for encouraging me to continue on when I was struggling at the start of the course, my family for encouraging me to keep studying despite going through a bereavement, and my mentor Matt for helping me along the way with pre, mid point and final calls! This year has been incredibly hard, however making the time to get this done no matter the issues that I face around me make it all worth while.
+I would like to thank my partner for encouraging me to continue on when I was struggling at the start of the course, my family for encouraging me to keep studying despite going through a bereavement, and my mentor Matt for helping me along the way with pre, mid point and final calls! This year has been incredibly hard and only seems to be getting harder, however making the time to get this done no matter the issues that I face around me make it all worth while.
 
 [Back to top](#introduction)
