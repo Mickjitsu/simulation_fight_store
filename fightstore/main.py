@@ -64,7 +64,7 @@ def select_product(df_inventory):
           "to return to the main menu:")
     for index, row in df_inventory.iterrows():
         print(f"{index}: {row['Product Name']} - {row['Description']} "
-              "- {row['Size']} - {row['Color']}")
+              f"- {row['Size']} - {row['Color']}")
     while True:
         user_input = input("Enter the product index "
                            "or 'back': ").strip().lower()

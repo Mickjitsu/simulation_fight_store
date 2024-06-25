@@ -28,7 +28,7 @@ def record_sale(sale_id, date_of_purchase, product_id, size, color,
 
         stock_sheet.update_cell(row_index, 4, updated_stock)
         print(f"Stock updated successfully. New stock count for Product "
-              "ID '{product_id}': {updated_stock}")
+              f"ID '{product_id}': {updated_stock}")
     except ValueError:
         print(f"Product ID '{product_id}' not found in the stock worksheet.")
     except Exception as e:
